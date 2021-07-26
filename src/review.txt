@@ -1,0 +1,15 @@
+Комментарии по коду
+https://github.com/zefirik/react-country-info/blob/master/src/App.js#L11
+Это плохая практика присваивать undefined как значения для переменных. Лучше использовать пустую строку (для string) или 0 (для integer)
+
+https://github.com/zefirik/react-country-info/blob/master/src/App.js#L26
+Лучше основную часть url перенести в константу
+
+https://github.com/zefirik/react-country-info/blob/master/src/App.js#L35
+data[0]  лучше один раз вынести в переменную и использовать её для всех остальных полей чем каждый раз обращаться к 0му элементу массива
+
+
+https://github.com/zefirik/react-country-info/blob/master/src/App.js#L63
+То же самое с this.state 
+
+

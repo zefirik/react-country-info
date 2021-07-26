@@ -4,69 +4,73 @@ import Form from './components/form';
 import Country from './components/country';
 import './App.css';
 
+const counry_url ="https://restcountries.eu/rest/v2/name/";//основную часть url перенести в константу
+
 
 class App extends React.Component{
   
   state = {
-    official : undefined,
-    official_native : undefined,
-    capital: undefined,
-    currency: undefined,
-    language: undefined,
-    flag: undefined,
-    error: undefined,
+    official: "",
+    official_native: "",
+    capital: "",
+    currency: "",
+    language: "",
+    flag: "",
+    error: "",
   };
 
-
+   
 
   gettingCountry = async (event) =>{
     event.preventDefault();
     
     const country = event.target.elements.country.value;
-    const api_url = await fetch(`https://restcountries.eu/rest/v2/name/${country}`);
+    const api_url = await fetch(`${counry_url}${country}`);
     
     const data = await api_url.json();
     console.log(data);
   
-
+    const a = data[0]; //data[0]  лучше один раз вынести в переменную и использовать её для всех остальных полей чем каждый раз обращаться к 0му элементу массива
 
     if(api_url.status !== 404){
       this.setState({
-        official : data[0].name,
-        official_native : data[0].nativeName,
-        capital: data[0].capital,
-        currency: data[0].currencies[0].name,
-        language:data[0].languages[0].name,
-        flag: data[0].flag,
-        error: undefined
+        official : a.name,
+        official_native : a.nativeName,
+        capital: a.capital,
+        currency: a.currencies[0].name,
+        language:a.languages[0].name,
+        flag: a.flag,
+        error: ""
       });
     } else{
       this.setState({
-        official : undefined,
-        official_native : undefined,
-        capital: undefined,
-        currency: undefined,
-        language: undefined,
-        flag: undefined,
+        official : "",
+        official_native : "",
+        capital: "",
+        currency: "",
+        language: "",
+        flag: "",
         error: "You don't enter the actual country!"
       });
     }
   }
 
+  
 render(){
+  const  t = this.state; //один раз выносим в переменную и используем для всех остальных полей
   return (
     <div className="wrapper">
       <div className="container">
         <Header />
         <Form dataForm = {this.gettingCountry} />
         <Country 
-        official = {this.state.official}
-        official_native = {this.state.official_native}
-        capital = {this.state.capital}
-        currency = {this.state.currency}
-        language = {this.state.language}
-        flag = {this.state.flag}
-        error= {this.state.error}
+        official = {t.official}
+        official_native = {t.official_native}
+        capital = {t.capital}
+        currency = {t.currency}
+        language = {t.language}
+        flag = {t.flag}
+        error= {t.error}
         />
 
       </div>
